@@ -6,6 +6,6 @@
  * Time: 09:49
  */
 return [
-    'prefix' => '',
-    'suffix' => ''
+    'prefix' => 'uiP5VpXs',
+    'suffix' => '7VNsgHBk'
 ];

@@ -4,7 +4,7 @@
 **/
 return
 [
-	"name" => "Suzy",
-	"description" => "I am a php framework using object-oriented programming and the MVC architectural pattern"
+	"name" => "KP Manager",
+	"description" => "Logiciel de gestion de l'équipe de kayak-polo de Toulouse."
 ];
 ?>

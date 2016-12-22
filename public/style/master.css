@@ -1,11 +1,77 @@
-.navbar.navbar-inverse
-{
-  border-radius: 0;
+/*
+*************** LAYOUT *****************
+ */
+
+.container {
+  margin-left: 250px;
+  width: calc(100% - 250px);
 }
 
-footer.main-footer
-{
+/*
+*************** MENU *****************
+ */
+
+.main-menu {
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  min-width: 250px;
+  background: #333333;
+  color: #FFFFFF;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.main-title {
+  display: block;
+  color: #DDDDDD;
+  padding: 20px;
+  background: #252525;
+}
+
+.main-title h1 {
+  margin: 0;
+}
+
+.main-title:hover {
+  color: #32cc7f;
+  text-decoration: none;
+}
+
+.menu {
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  list-style: none;
+}
+
+.menu li a {
+  display: block;
+  color: #dddddd;
+  padding: 10px 20px;
+}
+
+.menu li a:hover {
+  background: #252525;
+  text-decoration: none;
+}
+
+/*
+*************** FOOTER *****************
+ */
+
+footer.main-footer {
   margin-top: 20px;
   padding: 10px;
   border-top:2px solid #DDD;
+}
+
+/*
+*************** REDEFINE BOOTSTRAP *****************
+ */
+
+.btn-primary {
+  background-color: #32cc7f;
+  border: #2ca260;
 }

@@ -29,7 +29,7 @@ class Auth extends Controller
                     //Hash password with salt
                     $salts = require_once '../app/config/salt.php';
                     $password = hash('SHA256', $salts['prefix'].$_POST['password'].$salts['prefix']);
-                    echo $password;
+                    //echo $password;
                     $db = $this->model('Users');
                     if ($db->canUserLogin($username, $password)) {
                         require_once "../app/core/AuthManager.php";

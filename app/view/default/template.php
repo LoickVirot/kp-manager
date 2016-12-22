@@ -12,6 +12,6 @@
 	<!-- jQuery -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 	<!-- Bootstrap JavaScript -->
-	<script src="js/bootstrap.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
 </body>
 </html>

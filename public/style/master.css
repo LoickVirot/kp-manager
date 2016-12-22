@@ -50,11 +50,24 @@
   display: block;
   color: #dddddd;
   padding: 10px 20px;
+  border-right: 5px solid #333333;
+  -webkit-transition: ease 0.2s;
+  -moz-transition: ease 0.2s ;
+  -ms-transition: ease 0.2s ;
+  -o-transition: ease 0.2s ;
+  transition: ease 0.2s ;
 }
 
 .menu li a:hover {
   background: #252525;
   text-decoration: none;
+  color: #32cc7f;
+  border-right: 5px solid #32cc7f;
+  -webkit-transition: ease 0.2s;
+  -moz-transition: ease 0.2s ;
+  -ms-transition: ease 0.2s ;
+  -o-transition: ease 0.2s ;
+  transition: ease 0.2s ;
 }
 
 /*
@@ -73,5 +86,5 @@ footer.main-footer {
 
 .btn-primary {
   background-color: #32cc7f;
-  border: #2ca260;
+  border: #32cc7f;
 }

@@ -1,0 +1,11 @@
+.navbar.navbar-inverse
+{
+  border-radius: 0;
+}
+
+footer.main-footer
+{
+  margin-top: 20px;
+  padding: 10px;
+  border-top:2px solid #DDD;
+}

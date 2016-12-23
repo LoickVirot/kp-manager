@@ -30,7 +30,7 @@ class Database
 	{
 		$prep = self::$db->prepare($request);
 		$prep->execute();
-		return $prep->fetch();
+		return $prep->fetchAll();
 	}
 
     /**

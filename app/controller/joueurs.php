@@ -3,8 +3,13 @@ class Joueurs extends Controller
 {
     public function index()
     {
-        $this->view('joueurs/index');
-        
+        try {
+            $model = $this->model('Mod_Joueurs');
+            $joueurs = $model->getJoueursBasicInfo();
+        } catch (Exception $e) {
+            $this->view('joueurs/index', ['error' => 'Une erreur est survenue, veuillez contacter le webmestre.']);
+        }
+        $this->view('joueurs/index', ['joueurs' => $joueurs]);
     }
 
     public function add()

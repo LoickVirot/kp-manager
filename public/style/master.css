@@ -82,6 +82,18 @@ footer.main-footer {
 }
 
 /*
+*************** JOUEURS *****************
+ */
+
+.players-list tbody tr td {
+vertical-align: middle;
+}
+
+.players-list .player-photo {
+  height: 30px;
+}
+
+/*
 *************** REDEFINE BOOTSTRAP *****************
  */
 

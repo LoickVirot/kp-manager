@@ -1,5 +1,10 @@
 <h1>Ajouter un joueur</h1>
-<form action="/joueurs/add">
+<?php if (!empty($data['error'])) : ?>
+    <div class="alert alert-danger">
+        <?= $data['error'] ?>
+    </div>
+<?php endif?>
+<form action="/joueurs/add" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">Numero de license</span>
@@ -46,11 +51,6 @@
             </select>
         </div>
     </div>
-    <div class="form-group">
-        <div class="input-group">
-            <span class="input-group-addon">Photo</span>
-            <input type="file" class="form-control" name="photo" required>
-        </div>
-    </div>
+    Fichier : <input type="file" name="photo">
     <button type="submit" class="btn btn-primary">Ajouter</button>
 </form>

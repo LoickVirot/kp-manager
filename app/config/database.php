@@ -8,6 +8,6 @@ return
 "user" => "root",
 "password" => "dev",
 "database" => "kp-manager",
-"charset" => "utf8"
+"charset" => "latin1"
 ];
  ?>

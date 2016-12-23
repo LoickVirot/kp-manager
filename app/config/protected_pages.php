@@ -9,5 +9,12 @@
 return [
     'admin' => [
         'index'
+    ],
+    'joueurs' => [
+        'index',
+        'add'
+    ],
+    'matchs' => [
+        'index'
     ]
 ];

@@ -33,6 +33,13 @@ class Database
 		return $prep->fetchAll();
 	}
 
+    public function selectOne($request)
+    {
+        $prep = self::$db->prepare($request);
+        $prep->execute();
+        return $prep->fetch();
+    }
+
     /**
      * Execute count request
      * @param string $request Request to send to the database

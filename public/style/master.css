@@ -93,6 +93,10 @@ vertical-align: middle;
   height: 30px;
 }
 
+.player-info .player-photo {
+  width: 250px;
+}
+
 /*
 *************** REDEFINE BOOTSTRAP *****************
  */

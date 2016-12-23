@@ -75,4 +75,10 @@ class Joueurs extends Controller
     {
         $this->view('joueurs/add_result');
     }
+
+    public function get($num)
+    {
+        $joueur = $this->model('Mod_Joueurs')->getJoueurNumLicence($num);
+        $this->view('joueurs/get', ['joueur' => $joueur]);
+    }
 }

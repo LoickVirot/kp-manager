@@ -11,6 +11,15 @@ class Mod_Joueurs extends Database
         ");
     }
 
+    public function getJoueurNumLicence($num)
+    {
+        return $this->selectOne("
+        SELECT *
+        FROM joueurs
+        WHERE numero_licence = $num;
+        ");
+    }
+
     public function insererJoueur($num, $nom, $prenom, $ddn, $taille, $poids, $id_poste, $photo)
     {
         return $this->insert("

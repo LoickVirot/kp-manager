@@ -48,7 +48,12 @@ class App
             }
 		}
 
-		$this->params = $url ? array_values($url) : [];
+		if (isset($url[2])) {
+			for ($i = 2; $i < sizeof($url); $i++)
+				array_push($this->params, $url[$i]);
+		}
+
+		//$this->params = $url ? array_values($url) : [];
 
         //If page need login
         if (array_key_exists($url[0], $this->loginRequired) && in_array($this->method, $this->loginRequired[$url[0]])) {

@@ -97,6 +97,12 @@ vertical-align: middle;
   width: 250px;
 }
 
+.player-info textarea {
+  width: 500px;
+  max-width: 500px;
+  height: 100px;
+}
+
 /*
 *************** REDEFINE BOOTSTRAP *****************
  */

@@ -1,4 +1,7 @@
-<h1><?= $data['joueur']['prenom'] ?> <?= $data['joueur']['nom'] ?></h1>
+<h1>
+    <?= $data['joueur']['prenom'] ?> <?= $data['joueur']['nom'] ?>
+    <small><a href="/joueurs/edit/<?= $data['joueur']['numero_licence'] ?>"><span class="glyphicon glyphicon-pencil"></span> Éditer</a></small>
+</h1>
 
 <div class="row player-info">
     <div class="col-md-8">
@@ -7,10 +10,9 @@
         <p><b>Taille : </b><?= $data['joueur']['taille'] ?></p>
         <p><b>Poids : </b><?= $data['joueur']['poids'] ?></p>
         <p><b>Status : </b><?= $data['joueur']['status'] == '' ? 'Non renseigné' : $data['joueur']['status']?></p>
-        <div class="well">
+        <textarea>
             <?= $data['joueur']['commentaire'] == '' ? 'Pas de commentaire' : $data['joueur']['commentaire']?>
-        </div>
-
+        </textarea>
     </div>
     <div class="col-md-4">
         <img src="/<?= $data['joueur']['photo'] ?>" alt="photo" class="player-photo">

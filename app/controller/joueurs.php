@@ -21,22 +21,16 @@ class Joueurs extends Controller
                 && !empty($_POST['ddn']) && !empty($_POST['taille']) && !empty($_POST['poids'])
                 && !empty($_POST['id_poste']) && !empty($_FILES['photo'])
             ) {
-                //On sécurise les donnees
-                $num = addslashes(htmlentities($_POST['num']));
-                $nom = addslashes(htmlentities($_POST['nom']));
-                $prenom = addslashes(htmlentities($_POST['prenom']));
-                $ddn = addslashes(htmlentities($_POST['ddn']));
-                $taille = addslashes(htmlentities($_POST['taille']));
-                $poids = addslashes(htmlentities($_POST['poids']));
-                $id_poste = addslashes(htmlentities($_POST['id_poste']));
+                //Sécurisation des données
+                $data = $this->securiserDonnees($_POST);
 
                 //Verification du type de la photo
                 $allowed_extentions = ['image/jpeg', 'image/jpg', 'image/png'];
                 if (!in_array($_FILES['photo']['type'], $allowed_extentions))
                     $error = "La photo doit être de type PNG ou JPG.";
 
+                //Vérification de la taille de la photo
                 $max_size = 2000000;
-                //Vérification de la taille
                 if ($_FILES['photo']['size'] > $max_size)
                     $error = "La photo doit peser moins de 2 Mo.";
 
@@ -44,12 +38,13 @@ class Joueurs extends Controller
                 if (empty($error)) {
                     //On upload l'imgage
                     $extention = explode('/', $_FILES['photo']['type']);
-                    $photo = 'uploads/photos_joueurs/' . $num . '.' . $extention[1];
+                    $photo = 'uploads/photos_joueurs/' . $data['num'] . '.' . $extention[1];
                     if (move_uploaded_file($_FILES['photo']['tmp_name'], $photo)) {
                         //On essaye de mettre les donnees dans la db
                         try {
                             $model = $this->model('Mod_Joueurs');
-                            $res = $model->insererJoueur($num, $nom, $prenom, $ddn, $taille, $poids, $id_poste, $photo);
+                            $res = $model->insererJoueur($data['num'], $data['nom'], $data['prenom'], $data['ddn'],
+                                $data['taille'], $data['poids'], $data['id_poste'], $photo);
                             //On affiche une page de succes qui propose d'en ajouter un autre ou voir le joueur
                             if ($res) {
                                 header('Location:/joueurs/add_success');
@@ -71,6 +66,34 @@ class Joueurs extends Controller
             $this->view('joueurs/add');
     }
 
+    public function edit($num)
+    {
+        $joueur = $this->model('Mod_Joueurs')->getJoueurNumLicence($num);
+        //S'il y a une variable post
+        if (!empty($_POST)) {
+            //Si rien n'est vide
+            if ($this->isAllInputsCompleted(['num', 'nom', 'prenom', 'ddn', 'taille', 'poids', 'id_poste'])) {
+                //On sécurise les valeurs
+                $inputs = $this->securiserDonnees($_POST);
+                //On envois les valeurs
+                $res = $this->model('Mod_Joueurs')->updatePlayer($inputs['num'], $inputs['nom'], $inputs['prenom'],
+                $inputs['ddn'], $inputs['taille'], $inputs['poids']);
+                if ($res) {
+                    header('Location:/joueurs/get/' . $inputs['num']);
+                }
+                else
+                    $this->view('joueurs/edit', ['joueur' => $joueur,
+                        'error' => 'Erreur lors de la mise a jour du joueur, veuillez rééssayer']);
+            }
+            else
+                $this->view('joueurs/edit', ['joueur' => $joueur,
+                    'error' => 'Veuillez remplir tous les champs']);
+        }
+        else {
+            $this->view('joueurs/edit', ['joueur' => $joueur]);
+        }
+    }
+
     public function add_success()
     {
         $this->view('joueurs/add_result');
@@ -80,5 +103,33 @@ class Joueurs extends Controller
     {
         $joueur = $this->model('Mod_Joueurs')->getJoueurNumLicence($num);
         $this->view('joueurs/get', ['joueur' => $joueur]);
+    }
+
+    /**
+     * Securise les données contenues dans le tableau $data
+     * @param $data
+     * @return array
+     */
+    private function securiserDonnees($data) {
+        $return = [];
+        foreach ($data as $key => $value) {
+            $return[$key] = $value;
+        }
+        return $return;
+    }
+
+    /**
+     * Retourne vrai si tous les inputs sont remplis
+     * @param $inputs
+     * @return bool
+     */
+    private function isAllInputsCompleted($inputs)
+    {
+        $return = true;
+        foreach ($inputs as $i){
+            if (empty($_POST[$i]))
+                $return = false;
+        }
+        return $return;
     }
 }

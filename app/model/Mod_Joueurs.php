@@ -27,4 +27,13 @@ class Mod_Joueurs extends Database
             VALUES('$num', '$nom', '$prenom', '$photo', '$ddn', '$taille', '$poids', '$id_poste')
         ");
     }
+
+    public function updatePlayer($num, $nom, $prenom, $ddn, $taille, $poids)
+    {
+        return $this->insert("
+        UPDATE joueurs
+        SET numero_licence='$num', nom='$nom', prenom='$prenom', ddn='$ddn', taille='$taille', poids='$poids'
+        WHERE numero_licence='$num';
+        ");
+    }
 }

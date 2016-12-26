@@ -79,7 +79,7 @@ class Joueurs extends Controller
                 $inputs = $this->securiserDonnees($_POST);
                 //On envois les valeurs
                 $res = $this->model('Mod_Joueurs')->updatePlayer($inputs['num'], $inputs['nom'], $inputs['prenom'],
-                $inputs['ddn'], $inputs['taille'], $inputs['poids']);
+                $inputs['ddn'], $inputs['taille'], $inputs['poids'], $inputs['id_poste']);
                 if ($res) {
                     header('Location:/joueurs/get/' . $inputs['num']);
                 }

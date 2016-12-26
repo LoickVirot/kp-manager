@@ -52,6 +52,21 @@
             </select>
         </div>
     </div>
-    Fichier : <input type="file" name="photo">
+    <div class="divider"></div>
+    <div class="form-group">
+        <div class="input-group">
+            <span class="input-group-addon">Status</span>
+            <select class="form-control" name="status">
+                <?php foreach ($data['status'] as $status): ?>
+                    <?php $status['libelle'] == $data['joueur']['status'] ? $selected = "selected" : $selected = "" ?>
+                    <option value="<?=$status['id_status']?>" <?= $selected ?>><?=$status['libelle']?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <b>Commentaire</b>
+        <textarea class="form-control" name="commentaire"><?= $data['joueur']['commentaire'] == '' ? '' : $data['joueur']['commentaire']?></textarea>
+    </div>
     <button type="submit" class="btn btn-primary">Appliquer</button>
 </form>

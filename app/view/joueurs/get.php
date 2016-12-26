@@ -12,9 +12,7 @@
         <p><b>Poste : </b><?= $data['joueur']['poste'] ?></p>
         <div class="divider"></div>
         <p><b>Status : </b><?= $data['joueur']['status'] == '' ? 'Non renseigné' : $data['joueur']['status']?></p>
-        <textarea>
-            <?= $data['joueur']['commentaire'] == '' ? 'Pas de commentaire' : $data['joueur']['commentaire']?>
-        </textarea>
+        <textarea class="form-control" readonly><?= $data['joueur']['commentaire'] == '' ? 'Pas de commentaire' : $data['joueur']['commentaire']?></textarea>
     </div>
     <div class="col-md-4">
         <img src="/<?= $data['joueur']['photo'] ?>" alt="photo" class="player-photo">

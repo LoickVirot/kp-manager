@@ -69,30 +69,30 @@ class Joueurs extends Controller
     public function edit($num)
     {
         $joueur = $this->model('Mod_Joueurs')->getJoueurNumLicence($num);
-        $postes= $this->model('Mod_Postes')->getPostes();
-
+        $postes = $this->model('Mod_Postes')->getPostes();
+        $status = $this->model('Mod_Status')->getStatus();
         //S'il y a une variable post
         if (!empty($_POST)) {
             //Si rien n'est vide
-            if ($this->isAllInputsCompleted(['num', 'nom', 'prenom', 'ddn', 'taille', 'poids', 'id_poste'])) {
+            if ($this->isAllInputsCompleted(['num', 'nom', 'prenom', 'ddn', 'taille', 'poids', 'id_poste', 'status'])) {
                 //On sécurise les valeurs
                 $inputs = $this->securiserDonnees($_POST);
                 //On envois les valeurs
                 $res = $this->model('Mod_Joueurs')->updatePlayer($inputs['num'], $inputs['nom'], $inputs['prenom'],
-                $inputs['ddn'], $inputs['taille'], $inputs['poids'], $inputs['id_poste']);
+                $inputs['ddn'], $inputs['taille'], $inputs['poids'], $inputs['id_poste'], $inputs['status'], $inputs['commentaire']);
                 if ($res) {
                     header('Location:/joueurs/get/' . $inputs['num']);
                 }
                 else
-                    $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes,
+                    $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes, 'status' => $status,
                         'error' => 'Erreur lors de la mise a jour du joueur, veuillez rééssayer']);
             }
             else
-                $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes,
+                $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes, 'status' => $status,
                     'error' => 'Veuillez remplir tous les champs']);
         }
         else {
-            $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes]);
+            $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes, 'status' => $status]);
         }
     }
 

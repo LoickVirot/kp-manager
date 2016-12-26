@@ -22,7 +22,12 @@ class Mod_Joueurs extends Database
         SELECT nom
         FROM postes
         WHERE id_poste = '". $joueur['poste'] ."' ");
+        $status = $this->selectOne("
+        SELECT libelle
+        FROM status
+        WHERE id_status = '". $joueur['status'] ."' ");
         $joueur['poste'] = $poste['nom'];
+        $joueur['status'] = $status['libelle'];
         return $joueur;
     }
 
@@ -34,11 +39,12 @@ class Mod_Joueurs extends Database
         ");
     }
 
-    public function updatePlayer($num, $nom, $prenom, $ddn, $taille, $poids, $poste)
+    public function updatePlayer($num, $nom, $prenom, $ddn, $taille, $poids, $poste, $status, $commentaire)
     {
         return $this->insert("
         UPDATE joueurs
-        SET numero_licence='$num', nom='$nom', prenom='$prenom', ddn='$ddn', taille='$taille', poids='$poids', poste='$poste'
+        SET numero_licence='$num', nom='$nom', prenom='$prenom', ddn='$ddn', taille='$taille', poids='$poids', poste='$poste',
+        status='$status', commentaire='$commentaire'
         WHERE numero_licence='$num';
         ");
     }

@@ -69,6 +69,8 @@ class Joueurs extends Controller
     public function edit($num)
     {
         $joueur = $this->model('Mod_Joueurs')->getJoueurNumLicence($num);
+        $postes= $this->model('Mod_Postes')->getPostes();
+
         //S'il y a une variable post
         if (!empty($_POST)) {
             //Si rien n'est vide
@@ -82,15 +84,15 @@ class Joueurs extends Controller
                     header('Location:/joueurs/get/' . $inputs['num']);
                 }
                 else
-                    $this->view('joueurs/edit', ['joueur' => $joueur,
+                    $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes,
                         'error' => 'Erreur lors de la mise a jour du joueur, veuillez rééssayer']);
             }
             else
-                $this->view('joueurs/edit', ['joueur' => $joueur,
+                $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes,
                     'error' => 'Veuillez remplir tous les champs']);
         }
         else {
-            $this->view('joueurs/edit', ['joueur' => $joueur]);
+            $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes]);
         }
     }
 

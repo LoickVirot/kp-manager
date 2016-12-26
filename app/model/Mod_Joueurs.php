@@ -13,11 +13,17 @@ class Mod_Joueurs extends Database
 
     public function getJoueurNumLicence($num)
     {
-        return $this->selectOne("
+        $joueur = $this->selectOne("
         SELECT *
         FROM joueurs
         WHERE numero_licence = $num;
         ");
+        $poste = $this->selectOne("
+        SELECT nom
+        FROM postes
+        WHERE id_poste = '". $joueur['poste'] ."' ");
+        $joueur['poste'] = $poste['nom'];
+        return $joueur;
     }
 
     public function insererJoueur($num, $nom, $prenom, $ddn, $taille, $poids, $id_poste, $photo)

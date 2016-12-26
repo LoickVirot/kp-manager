@@ -46,7 +46,7 @@
             <span class="input-group-addon">Poste</span>
             <select class="form-control" name="id_poste">
                 <?php foreach ($data['postes'] as $poste): ?>
-                    <?php $poste['id_poste'] == $data['joueur']['poste'] ? $selected = "selected" : $selected = "" ?>
+                    <?php $poste['nom'] == $data['joueur']['poste'] ? $selected = "selected" : $selected = "" ?>
                     <option value="<?=$poste['id_poste']?>" <?= $selected ?>><?=$poste['nom']?></option>
                 <?php endforeach; ?>
             </select>

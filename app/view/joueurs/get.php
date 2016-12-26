@@ -10,6 +10,7 @@
         <p><b>Taille : </b><?= $data['joueur']['taille'] ?></p>
         <p><b>Poids : </b><?= $data['joueur']['poids'] ?></p>
         <p><b>Poste : </b><?= $data['joueur']['poste'] ?></p>
+        <div class="divider"></div>
         <p><b>Status : </b><?= $data['joueur']['status'] == '' ? 'Non renseigné' : $data['joueur']['status']?></p>
         <textarea>
             <?= $data['joueur']['commentaire'] == '' ? 'Pas de commentaire' : $data['joueur']['commentaire']?>
@@ -19,6 +20,3 @@
         <img src="/<?= $data['joueur']['photo'] ?>" alt="photo" class="player-photo">
     </div>
 </div>
-<pre>
-        <?= var_dump($data['joueur']) ?>
-    </pre>

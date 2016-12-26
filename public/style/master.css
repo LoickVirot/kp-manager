@@ -111,3 +111,10 @@ vertical-align: middle;
   background-color: #32cc7f;
   border: #32cc7f;
 }
+
+div.divider {
+  height: 2px;
+  background: #DDDDDD;
+  display: block;
+  margin: 20px 0;
+}

@@ -1,6 +1,9 @@
 <?php
 class Joueurs extends Controller
 {
+    /**
+     * Affiche la liste de tous les joueurs
+     */
     public function index()
     {
         try {
@@ -12,6 +15,9 @@ class Joueurs extends Controller
         $this->view('joueurs/index', ['joueurs' => $joueurs]);
     }
 
+    /**
+     * Ajouter un joueur à la base de donnée
+     */
     public function add()
     {
         //S'il y a une variable post
@@ -66,6 +72,10 @@ class Joueurs extends Controller
             $this->view('joueurs/add');
     }
 
+    /**
+     * Modifier un joueur
+     * @param $num
+     */
     public function edit($num)
     {
         $joueur = $this->model('Mod_Joueurs')->getJoueurNumLicence($num);
@@ -96,11 +106,59 @@ class Joueurs extends Controller
         }
     }
 
+    /**
+     * Supprimer un joueur
+     * @param $num
+     */
+    public function delete($num) {
+        //securise le numero
+        $num = htmlentities(addslashes($num));
+
+        //Verifier si un numero est rentré
+        if ($num == "")
+            echo "Pas de num";
+            //header('Location:/joueurs');
+
+        $model = $this->model('Mod_Joueurs');
+        //Verifier si je joueur existe
+        if (!$model->isJoueurExists($num))
+            //header('Location:/joueurs');
+            echo "Joueur not exixts";
+
+        $joueur = $model->getJoueurBasicInfo($num);
+
+        //Si on a confirmé la suppression
+        if (isset($_POST['delete'])) {
+            $res = $model->deleteJoueur($num);
+            if ($res) {
+                unlink($joueur['photo']);
+                header('Location:/joueurs');
+            }
+            else
+                $this->view('joueurs/delete', ['joueur' => $joueur,
+                    'error' => 'Erreur lors de la suppression du joueur, veuillez rééssayer.']);
+        }
+        else {
+            var_dump($_POST);
+            $this->view('joueurs/delete', ['joueur' => $joueur]);
+        }
+
+
+
+    }
+
+    /**
+     * Affiche la page de succes lors de l'ajout d'un joueur
+     */
     public function add_success()
     {
         $this->view('joueurs/add_result');
     }
 
+    /**
+     * Afficher les details un joueur
+     * @param $num
+     */
     public function get($num)
     {
         $joueur = $this->model('Mod_Joueurs')->getJoueurNumLicence($num);

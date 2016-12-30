@@ -15,7 +15,7 @@
                     <td><?=$joueur['prenom']?></td>
                     <td><img src="/<?=$joueur['photo']?>" alt="photo" class="player-photo"></td>
                     <td>
-                        <a href="" class="text-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer</a>
+                        <a href="/joueurs/delete/<?=$joueur['numero_licence']?>" class="text-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer</a>
                     </td>
                 </tr>
         <?php endforeach; ?>

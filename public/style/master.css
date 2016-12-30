@@ -104,6 +104,45 @@ vertical-align: middle;
 }
 
 /*
+*************** MATCHS *****************
+ */
+
+.matchs-list .date {
+  color: #9d9d9d;
+  font-style: italic;
+}
+
+.match, .match-reverse {
+  display: flex;
+  flex-direction: row;
+}
+
+.match-reverse {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.match div,
+.match-reverse div {
+  display: flex;
+  justify-content: space-between;
+  flex: 10;
+}
+
+.match-reverse div {
+flex-direction: row-reverse;
+}
+
+.match div {
+  flex-direction: row;
+}
+
+.matchs-list .between
+{
+  width: 20px;
+  flex: 1;
+}
+/*
 *************** REDEFINE BOOTSTRAP *****************
  */
 

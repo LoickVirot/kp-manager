@@ -14,7 +14,7 @@ class Home extends Controller
 	{
 		include "../app/core/AuthManager.php";
 		if (AuthManager::isUserLogged())
-			$this->view('admin/index', []);
+			header('Location:/admin/');
 		else
 			$this->view('home', []);
 	}

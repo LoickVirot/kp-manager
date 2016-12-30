@@ -1,4 +1,4 @@
-<h1>Joueurs</h1>
+<h1>Joueurs <small><a href="/joueurs/add"><span class="glyphicon glyphicon-plus"></span> Ajouter un joueur</a></small></h1>
 <table class="table table-hover players-list">
     <thead>
         <th>Numéro de licence</th>

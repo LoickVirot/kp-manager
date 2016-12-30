@@ -20,6 +20,8 @@ class Joueurs extends Controller
      */
     public function add()
     {
+        //On demande la liste des postes
+        $postes = $this->model("Mod_Postes")->getPostes();
         //S'il y a une variable post
         if (!empty($_POST)) {
             //Si tout est bien rentré
@@ -56,20 +58,24 @@ class Joueurs extends Controller
                                 header('Location:/joueurs/add_success');
                             }
                             else
-                                $this->view('joueurs/add', ['error' => 'Erreur lors de l\'insertion dans la base de donnée']);
+                                $this->view('joueurs/add', ['postes' => $postes,
+                                    'error' => 'Erreur lors de l\'insertion dans la base de donnée']);
                         } catch (Exception $e) {
-                            $this->view('joueurs/add', ['error' => 'Erreur lors de l\'insertion dans la base de donnée : ' . $e->getMessage()]);
+                            $this->view('joueurs/add', ['postes' => $postes,
+                                'error' => 'Erreur lors de l\'insertion dans la base de donnée : ' . $e->getMessage()]);
                         }
                     } else
-                        $this->view('joueurs/add', ['error' => 'Erreur lors du téléchargement de la photo. Veuillez rééssayer.']);
+                        $this->view('joueurs/add', ['postes' => $postes,
+                            'error' => 'Erreur lors du téléchargement de la photo. Veuillez rééssayer.']);
                 } else
-                    $this->view('joueurs/add', ['error' => $error]);
+                    $this->view('joueurs/add', ['postes' => $postes, 'error' => $error]);
             } else
-                $this->view('joueurs/add', ['error' => 'Vous devez compléter tous les champs']);
+                $this->view('joueurs/add', ['postes' => $postes,
+                    'error' => 'Vous devez compléter tous les champs']);
         }
         //Sinon on affiche le formulaire
         else
-            $this->view('joueurs/add');
+            $this->view('joueurs/add', ['postes' => $postes]);
     }
 
     /**

@@ -45,9 +45,9 @@
         <div class="input-group">
             <span class="input-group-addon">Poste</span>
             <select class="form-control" name="id_poste">
-                <option value="1">Poste 1</option>
-                <option value="2">Poste 2</option>
-                <option value="3">Poste 3</option>
+                <?php foreach ($data['postes'] as $poste) : ?>
+                    <option value="<?= $poste['id_poste'] ?>"><?= $poste['nom'] ?></option>
+                <?php endforeach; ?>
             </select>
         </div>
     </div>

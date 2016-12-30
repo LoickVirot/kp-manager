@@ -12,7 +12,11 @@ class Home extends Controller
 
 	public function index()
 	{
-		$this->view('home', []);
+		include "../app/core/AuthManager.php";
+		if (AuthManager::isUserLogged())
+			$this->view('admin/index', []);
+		else
+			$this->view('home', []);
 	}
 }
  ?>

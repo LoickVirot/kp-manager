@@ -10,6 +10,7 @@ class admin extends Controller
 {
     public function index()
     {
-        $this->view('admin/index', []);
+        $joueurs = $this->model("Mod_Joueurs")->getJoueursBasicInfo();
+        $this->view('admin/index', ['joueurs' => $joueurs]);
     }
 }

@@ -179,7 +179,7 @@ class Joueurs extends Controller
     private function securiserDonnees($data) {
         $return = [];
         foreach ($data as $key => $value) {
-            $return[$key] = $value;
+            $return[$key] = addslashes(htmlentities($value));
         }
         return $return;
     }

@@ -7,7 +7,7 @@
 <form action="/matchs/add" method="post">
     <div class="form-group">
         <div class="input-group">
-            <span class="input-group-addon">Toulouse VS </span>
+            <span class="input-group-addon"><?= $data['team'] ?> VS </span>
             <input type="text" class="form-control" name="adversaire" placeholder="Adversaire" required>
         </div>
     </div>

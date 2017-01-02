@@ -41,4 +41,11 @@ class Mod_Matchs extends Database
             WHERE id_match = '$id_match'"
         );
     }
+
+    public function deleteMatch($id_match)
+    {
+        return $this->insert("
+        DELETE FROM matchs WHERE id_match='$id_match'
+        ");
+    }
 }

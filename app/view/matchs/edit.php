@@ -1,4 +1,4 @@
-<h1>Ajouter un match</h1>
+<h1>Modifier un match</h1>
 <?php if (isset($data['error'])) : ?>
     <div class="alert alert-danger">
         <?= $data['error'] ?>
@@ -42,6 +42,12 @@
         </div>
     </div>
     <br>
-    <a href='/matchs' class="btn btn-default">Annuler</a>
-    <button type="submit" class="btn btn-primary">Appliquer</button>
+    <div>
+        <a href="/matchs/delete/<?= $data['match']['id_match'] ?>" class="text-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer le match</a>
+    </div>
+    <br>
+    <div>
+        <a href='/matchs' class="btn btn-default">Annuler</a>
+        <button type="submit" class="btn btn-primary">Appliquer</button>
+    </div>
 </form>

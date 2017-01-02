@@ -90,7 +90,33 @@ class matchs extends Controller
         }
 
         header('Location:/matchs');
+    }
 
+    public function delete($id_match) {
+        //On sécurise l'id du match
+        $id_match = addslashes(htmlentities($id_match));
 
+        //On vérifie si le match existe
+        $model = $this->model('Mod_Matchs');
+        if (!$model->isMatchExists($id_match)) {
+            header('Location:/matchs');
+            return;
+        }
+
+        $match = $model->getMatch($id_match);
+
+        //S'il y a pas de variable post, on affiche la page
+        if (empty($_POST['delete'])) {
+            $this->view('matchs/delete', ['team' => $this->team, 'match' => $match]);
+            return;
+        }
+
+        $res = $model->deleteMatch($id_match);
+        if (!$res) {
+            $this->view('matchs/delete', ['team' => $this->team, 'match' => $match, 'error' => 'Il y a eu un problème lors de la suppression du match, veuillez rééssayer']);
+            return;
+        }
+
+        header('Location:/matchs');
     }
 }

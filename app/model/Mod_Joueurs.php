@@ -38,20 +38,12 @@ class Mod_Joueurs extends Database
     public function getJoueurNumLicence($num)
     {
         $joueur = $this->selectOne("
-        SELECT *
-        FROM joueurs
-        WHERE numero_licence = $num;
+        SELECT j.numero_licence, j.nom, j.prenom, j.photo, j.ddn, j.taille, j.poids, j.commentaire, p.id_poste, p.nom as poste, s.libelle as status
+        FROM joueurs j, postes p, status s 
+        WHERE j.poste=p.id_poste
+        AND j.status = s.id_status
+        AND j.numero_licence = '$num'
         ");
-        $poste = $this->selectOne("
-        SELECT nom
-        FROM postes
-        WHERE id_poste = '". $joueur['poste'] ."' ");
-        $status = $this->selectOne("
-        SELECT libelle
-        FROM status
-        WHERE id_status = '". $joueur['status'] ."' ");
-        $joueur['poste'] = $poste['nom'];
-        $joueur['status'] = $status['libelle'];
         return $joueur;
     }
 

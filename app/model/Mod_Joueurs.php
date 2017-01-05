@@ -9,9 +9,10 @@ class Mod_Joueurs extends Database
     public function getJoueursBasicInfo()
     {
         return $this->select("
-        SELECT numero_licence, nom, prenom, photo
-        FROM joueurs
-        ORDER BY nom, prenom;
+        SELECT j.numero_licence, j.nom, j.prenom, j.photo, p.nom as poste
+        FROM joueurs j, postes p
+        WHERE p.id_poste = j.poste
+        ORDER BY j.nom, j.prenom
         ");
     }
 

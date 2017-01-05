@@ -7,9 +7,10 @@
 <form action="/matchs/selection/<?= $data['id_match'] ?>" method="post">
     <table class="table">
         <thead>
-            <th>Selection</th>
+            <th>Poste</th>
             <th>Prénom</th>
             <th>Nom</th>
+            <th>Poste préféré</th>
         </thead>
         <tbody>
             <?php foreach ($data['joueurs'] as $joueur) : ?>
@@ -19,6 +20,7 @@
                     </td>
                     <td><?= $joueur['prenom'] ?></td>
                     <td><?= $joueur['nom'] ?></td>
+                    <td><?= $joueur['poste'] ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
@@ -26,3 +28,6 @@
     <a href='/matchs/edit/<?= $data['id_match'] ?>' class="btn btn-default">Annuler</a>
     <input type="submit" class="btn btn-primary" value="Valider">
 </form>
+<pre>
+    <?= var_dump($data['joueurs']); ?>
+</pre>

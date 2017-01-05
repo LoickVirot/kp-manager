@@ -119,4 +119,52 @@ class matchs extends Controller
 
         header('Location:/matchs');
     }
+
+    public function selection($id_match)
+    {
+        //On sécurise l'id du match
+        $id_match = addslashes(htmlentities($id_match));
+
+        //On vérifie si le match existe
+        $model = $this->model('Mod_Matchs');
+        if (!$model->isMatchExists($id_match)) {
+            header('Location:/matchs');
+            return;
+        }
+
+        //On récupère la liste des joueurs
+        $joueurs = $this->model('Mod_Joueurs')->getJoueursBasicInfo();
+
+        //Si pas de variable post, on affiche la page
+        if (empty($_POST)) {
+            $this->view('matchs/selection', ['id_match' => $id_match, 'joueurs' => $joueurs]);
+            return;
+        }
+
+        //On sécurise les données
+        $players = [];
+        foreach ($_POST as $input) {
+            array_push($players, htmlentities(addslashes(htmlentities($input))));
+        }
+        
+        $results = $model->addPlayersToSelection($id_match, $players);
+
+        //On vérifie que tout est bien rentré, sinon on veut afficher des messages d'erreur
+        $errors = [];
+        foreach ($results as $player => $res) {
+            if (!$res) {
+                array_push($errors, "Le joueur $player n'a pas pu être sélectionné. Veuillez rééssayer");
+                $isError = true;
+            }
+        }
+
+        //Si une erreur doit être affichée
+        if (isset($isError) && $isError) {
+            $this->view('matchs/selection', ['id_match' => $id_match, 'joueurs' => $joueurs, 'errors' => $errors]);
+            return;
+        }
+        
+        header("Location:/matchs/edit/$id_match");
+
+    }
 }

@@ -48,4 +48,25 @@ class Mod_Matchs extends Database
         DELETE FROM matchs WHERE id_match='$id_match'
         ");
     }
+
+    /**
+     * Ajoute des joueurs à la sélection pour un match.
+     * Retourne un tableau qui associe chaque joueur au résultat (vrai ou faux) de la requete.
+     * @param $id_match
+     * @param $players
+     * @return array
+     */
+    public function addPlayersToSelection($id_match, $players) {
+        $resReturn = [];
+
+        foreach ($players as $player) {
+            $resQuery = $this->insert("
+            INSERT INTO participation(num_license, id_match)
+              VALUES('$player', '$id_match');
+            ");
+            $resReturn[$player] = $resQuery;
+        }
+
+        return $resReturn;
+    }
 }

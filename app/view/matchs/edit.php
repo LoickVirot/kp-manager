@@ -1,4 +1,4 @@
-<h1>Modifier un match</h1>
+<h1>Modifier un match <small><a href="/matchs/selection/<?= $data['match']['id_match'] ?>">Sélection</a></small></h1>
 <?php if (isset($data['error'])) : ?>
     <div class="alert alert-danger">
         <?= $data['error'] ?>

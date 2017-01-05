@@ -6,7 +6,7 @@
 <div class="row player-info">
     <div class="col-md-8">
         <p><b>Numéro de licence : </b><?= $data['joueur']['numero_licence'] ?></p>
-        <p><b>Date de naissance : </b><?= $data['joueur']['ddn'] ?></p>
+        <p><b>Date de naissance : </b><?= date('d/m/Y', strtotime($data['joueur']['ddn'])) ?></p>
         <p><b>Taille : </b><?= $data['joueur']['taille'] ?></p>
         <p><b>Poids : </b><?= $data['joueur']['poids'] ?></p>
         <p><b>Poste : </b><?= $data['joueur']['poste'] ?></p>

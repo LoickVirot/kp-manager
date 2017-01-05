@@ -3,6 +3,9 @@
     <?php foreach ($data['matchs'] as $match) : ?>
         <div class="date">
             <?= date("d/m/Y", strtotime($match['date'])) ?>
+            <?php if ($match['isMatchFinished']) : ?>
+                <span class="text-danger">Terminé</span>
+            <?php endif; ?>
             <a href="/matchs/get/<?= $match['id_match'] ?>"><span class="glyphicon glyphicon-zoom-in"></span> Afficher</a>
         </div>
         <?php $match['lieu'] == "domicile" ? $class = 'match' : $class = 'match-reverse' ?>

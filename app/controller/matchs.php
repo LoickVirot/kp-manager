@@ -3,18 +3,29 @@
 class matchs extends Controller
 {
     private $team;
+    private $date;
 
     public function __construct()
     {
         // Recuperer le nom de notre équipe
         $appInfo = require_once "../app/config/app.php";
         $this->team = $appInfo['team'];
+
+        $this->date = new DateTime(date('d-m-Y'));
     }
 
     public function index()
     {
         // Récuperer les matchs
         $matchs = $this->model('Mod_Matchs')->getMatchs();
+
+        foreach ($matchs as $key => $match) {
+            //Vérification de la date du match
+            $matchDate = new DateTime(date('d-m-Y', strtotime($match['date'])));
+            $matchs[$key]['isMatchFinished'] = $matchDate <= $this->date;
+        }
+
+
         $this->view('matchs/index', ['team' => $this->team, 'matchs' => $matchs]);
     }
 
@@ -36,11 +47,16 @@ class matchs extends Controller
         //Récupération des joueurs sélectionnés
         $players = $model->getSelectedPlayers($id_match);
 
+        //Vérification de la date du match
+        $matchDate = new DateTime(date('d-m-Y', strtotime($match['date'])));
+        $isMatchFinished = $matchDate <= $this->date;
+
         //Affichage de la page de match
         $this->view('matchs/get', [
             'team' => $this->team,
             'match' => $match,
-            'players' => $players
+            'players' => $players,
+            'isMatchFinished' => $isMatchFinished
         ]);
     }
 
@@ -92,9 +108,18 @@ class matchs extends Controller
         //Récupération des joueurs sélectionnés
         $players = $model->getSelectedPlayers($id_match);
 
+        //Vérification de la date du match
+        $matchDate = new DateTime(date('d-m-Y', strtotime($match['date'])));
+        $isMatchFinished = $matchDate <= $this->date;
+
         //On vérifie s'il existe une variable post, sinon on affiche la page normalement
         if (empty($_POST)) {
-            $this->view('matchs/edit', ['team' => $this->team, 'match' => $match, 'players' => $players]);
+            $this->view('matchs/edit', [
+                'team' => $this->team,
+                'match' => $match,
+                'players' => $players,
+                'isMatchFinished' => $isMatchFinished
+            ]);
             return;
         }
 
@@ -167,6 +192,14 @@ class matchs extends Controller
         $model = $this->model('Mod_Matchs');
         if (!$model->isMatchExists($id_match)) {
             header('Location:/matchs');
+            return;
+        }
+
+        //On récupère le match pour vérifier la date
+        $match = $model->getMatch($id_match);
+        $matchDate = new DateTime(date('d-m-Y', strtotime($match['date'])));
+        if ($matchDate <= $this->date) {
+            header("Location:/matchs/get/$id_match");
             return;
         }
 

@@ -22,15 +22,22 @@
     <div class="divider"></div>
 </div>
 <div>
-    Match le <b><?= date("d/m/Y", strtotime($data['match']['date'])) ?></b> à <b><?= $data['match']['lieu'] ?></b>.
+    <?php if ($data['isMatchFinished']) : ?>
+        <b class="text-danger">Terminé</b>
+        <p>Match du <b><?= date("d/m/Y", strtotime($data['match']['date'])) ?></b> à <b><?= $data['match']['lieu'] ?></b>.</p>
+    <?php else : ?>
+        Match le <b><?= date("d/m/Y", strtotime($data['match']['date'])) ?></b> à <b><?= $data['match']['lieu'] ?></b>.
+    <?php endif; ?>
 </div>
 <h2>
     Joueurs sélectionnés
+    <?php if (!$data['isMatchFinished']) : ?>
     <small>
         <a href="/matchs/selection/<?= $data['match']['id_match'] ?>">
             <span class="glyphicon glyphicon-th-list"></span> Modifier la sélection
         </a>
     </small>
+    <?php endif; ?>
 </h2>
 <table class="table">
     <thead>

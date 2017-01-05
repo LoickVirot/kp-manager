@@ -26,6 +26,7 @@
             </select>
         </div>
     </div>
+    <?php if ($data['isMatchFinished']) : ?>
     <div class="divider"></div>
     <div class="form-inline">
         <div class="form-group">
@@ -41,6 +42,7 @@
             </div>
         </div>
     </div>
+    <?php endif; ?>
     <br>
     <div>
         <a href="/matchs/delete/<?= $data['match']['id_match'] ?>" class="text-danger"><span class="glyphicon glyphicon-trash"></span> Supprimer le match</a>

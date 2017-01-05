@@ -23,6 +23,6 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <a href='/matchs' class="btn btn-default">Annuler</a>
+    <a href='/matchs/edit/<?= $data['id_match'] ?>' class="btn btn-default">Annuler</a>
     <input type="submit" class="btn btn-primary" value="Valider">
 </form>

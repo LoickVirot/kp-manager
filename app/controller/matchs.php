@@ -18,6 +18,32 @@ class matchs extends Controller
         $this->view('matchs/index', ['team' => $this->team, 'matchs' => $matchs]);
     }
 
+    public function get($id_match) {
+
+        //On sécurise l'id du match
+        $id_match = addslashes(htmlentities($id_match));
+
+        //On vérifie si le match existe
+        $model = $this->model('Mod_Matchs');
+        if (!$model->isMatchExists($id_match)) {
+            header('Location:/matchs');
+            return;
+        }
+
+        //Récuperation du match
+        $match = $model->getMatch($id_match);
+
+        //Récupération des joueurs sélectionnés
+        $players = $model->getSelectedPlayers($id_match);
+
+        //Affichage de la page de match
+        $this->view('matchs/get', [
+            'team' => $this->team,
+            'match' => $match,
+            'players' => $players
+        ]);
+    }
+
     public function add()
     {
         if (!empty($_POST)) {
@@ -177,6 +203,10 @@ class matchs extends Controller
         }
         
         header("Location:/matchs/edit/$id_match");
+    }
+
+    public function remove($id_match, $num)
+    {
 
     }
 }

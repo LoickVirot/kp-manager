@@ -3,7 +3,7 @@
     <?php foreach ($data['matchs'] as $match) : ?>
         <div class="date">
             <?= date("d/m/Y", strtotime($match['date'])) ?>
-            <a href="/matchs/edit/<?= $match['id_match'] ?>"><span class="glyphicon glyphicon-pencil"></span>Éditer</a>
+            <a href="/matchs/get/<?= $match['id_match'] ?>"><span class="glyphicon glyphicon-zoom-in"></span> Afficher</a>
         </div>
         <?php $match['lieu'] == "domicile" ? $class = 'match' : $class = 'match-reverse' ?>
         <div class="<?= $class ?>">

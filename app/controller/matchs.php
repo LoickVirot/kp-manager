@@ -60,17 +60,25 @@ class matchs extends Controller
             return;
         }
 
+        //Récuperation du match
         $match = $model->getMatch($id_match);
+
+        //Récupération des joueurs sélectionnés
+        $players = $model->getSelectedPlayers($id_match);
 
         //On vérifie s'il existe une variable post, sinon on affiche la page normalement
         if (empty($_POST)) {
-            $this->view('matchs/edit', ['team' => $this->team, 'match' => $match]);
+            $this->view('matchs/edit', ['team' => $this->team, 'match' => $match, 'players' => $players]);
             return;
         }
 
         //On vérifie que tous les inputs sont entrés
         if (empty($_POST['adversaire']) || empty($_POST['date']) || empty($_POST['lieu'])) {
-            $this->view('matchs/edit', ['team' => $this->team, 'match' => $match, 'error' => 'Veuillez remplir tous les champs']);
+            $this->view('matchs/edit', [
+                'team' => $this->team,
+                'match' => $match,
+                'players' => $players,
+                'error' => 'Veuillez remplir tous les champs']);
             return;
         }
 
@@ -85,7 +93,11 @@ class matchs extends Controller
 
         //On vérifie que tout s'est bien passé
         if (!$res) {
-            $this->view('matchs/edit', ['team' => $this->team, 'match' => $match, 'error' => 'Quelque chose s\'est mal passe, veuillez rééssayer']);
+            $this->view('matchs/edit', [
+                'team' => $this->team,
+                'match' => $match,
+                'players' => $players,
+                'error' => 'Quelque chose s\'est mal passe, veuillez rééssayer']);
             return;
         }
 

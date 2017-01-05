@@ -51,3 +51,20 @@
         <button type="submit" class="btn btn-primary">Appliquer</button>
     </div>
 </form>
+<h2>Liste des joueurs sélectionnés</h2>
+<table class="table">
+    <thead>
+        <th>Numero de licence</th>
+        <th>Prénom</th>
+        <th>Nom</th>
+    </thead>
+    <tbody>
+        <?php foreach ($data['players'] as $player) : ?>
+            <tr>
+                <td><?= $player['numero_licence'] ?></td>
+                <td><?= $player['prenom'] ?></td>
+                <td><?= $player['nom'] ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>

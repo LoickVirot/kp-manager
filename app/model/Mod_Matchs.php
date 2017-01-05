@@ -61,7 +61,7 @@ class Mod_Matchs extends Database
 
         foreach ($players as $player) {
             $resQuery = $this->insert("
-            INSERT INTO participation(num_license, id_match)
+            INSERT INTO participation(num_licence, id_match)
               VALUES('$player', '$id_match');
             ");
             $resReturn[$player] = $resQuery;
@@ -69,4 +69,33 @@ class Mod_Matchs extends Database
 
         return $resReturn;
     }
+
+    /**
+     * Retourne les joueurs participant au match
+     * @param $id_match
+     * @return array
+     */
+    public function getSelectedPlayers($id_match) {
+        //On récupère la liste des numeros de licenses qui participent
+        $players = $this->select("
+        SELECT num_licence FROM participation
+        WHERE id_match = '$id_match'
+        ");
+
+        //Transform
+        $requestedPlayers = [];
+        foreach ($players as $player_id) {
+            array_push($requestedPlayers , "'" . $player_id['num_licence'] . "'");
+        }
+        $requestedPlayers = implode(',', $requestedPlayers);
+
+        $selectedPlayers = $this->select("
+            SELECT * FROM `joueurs` WHERE numero_licence in ($requestedPlayers);
+        ");
+
+        return $selectedPlayers;
+
+    }
+
+
 }

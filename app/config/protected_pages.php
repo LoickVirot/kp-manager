@@ -12,9 +12,19 @@ return [
     ],
     'joueurs' => [
         'index',
-        'add'
+        'add',
+        'edit',
+        'delete',
+        'add_sucess',
+        'get'
     ],
     'matchs' => [
-        'index'
+        'index',
+        'get',
+        'add',
+        'selection',
+        'edit',
+        'delete',
+        'remove'
     ]
 ];

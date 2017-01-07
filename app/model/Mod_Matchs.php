@@ -57,7 +57,7 @@ class Mod_Matchs extends Database
     public function getSelectedPlayers($id_match) {
         //On récupère la liste des numeros de licenses qui participent
         $players = $this->select("
-        SELECT j.numero_licence, j.nom, j.prenom, j.photo, p.status, po.nom as nom_poste
+        SELECT j.numero_licence, j.nom, j.prenom, j.photo, p.status, p.note, po.nom as nom_poste
         FROM participation p, joueurs j, postes po
         WHERE p.num_licence = j.numero_licence
         AND j.poste = po.id_poste
@@ -85,5 +85,14 @@ class Mod_Matchs extends Database
         ");
     }
 
+    public function note($id_match, $num, $note)
+    {
+        return $this->insert("
+        UPDATE participation
+        SET note = '$note'
+        WHERE id_match='$id_match'
+        AND num_licence='$num'
+        ");
+    }
 
 }

@@ -47,7 +47,12 @@
     <th>Nom</th>
     <th>Poste</th>
     <th>Status</th>
-    <th>Action</th>
+    <?php if (!$data['isMatchFinished']) : ?>
+        <th>Action</th>
+    <?php else: ?>
+        <th>Note</th>
+        <th>Noter</th>
+    <?php endif; ?>
     </thead>
     <tbody>
     <?php foreach ($data['players'] as $player) : ?>
@@ -57,8 +62,23 @@
             <td><?= $player['nom'] ?></td>
             <td><?= $player['nom_poste'] ?></td>
             <td><?= ucfirst($player['status']) ?></td>
-            <td><a href="/matchs/remove/<?= $data['match']['id_match'] ?>/<?= $player['numero_licence'] ?>" class="text-danger">Retirer</a></td>
-        </tr>
+            <?php if (!$data['isMatchFinished']) : ?>
+                <td><a href="/matchs/remove/<?= $data['match']['id_match'] ?>/<?= $player['numero_licence'] ?>" class="text-danger">Retirer</a></td>
+            <?php else: ?>
+                <td><?= $player['note'] ?>/5</td>
+                <td>
+                    <form action="/matchs/note/<?= $data['match']['id_match'] ?>/<?= $player['numero_licence'] ?>" method="post">
+                        <div class="btn-group" role="group">
+                            <input type="submit" class="btn btn-default" name="note" value="1">
+                            <input type="submit" class="btn btn-default" name="note" value="2">
+                            <input type="submit" class="btn btn-default" name="note" value="3">
+                            <input type="submit" class="btn btn-default" name="note" value="4">
+                            <input type="submit" class="btn btn-default" name="note" value="5">
+                        </div>
+                    </form>
+                </td>
+            <?php endif; ?>
+            </tr>
     <?php endforeach; ?>
     </tbody>
 </table>

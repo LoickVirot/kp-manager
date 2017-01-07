@@ -276,6 +276,42 @@ class matchs extends Controller
         $this->participerAuMatch($id_match, $num, "remplacement");
     }
 
+    public function note($id_match, $num)
+    {
+        //On sécurise les entrees
+        $id_match = addslashes(htmlentities($id_match));
+        $num = addslashes(htmlentities($num));
+
+        $model = $this->model('Mod_Matchs');
+
+        //On vérifie si le match existe
+        if (!$model->isMatchExists($id_match)) {
+            header('Location:/matchs');
+            return;
+        }
+
+        //On vérifie que POST n'est pas vide
+        if (empty($_POST)) {
+            header("Location:/matchs/get/$id_match");
+            return;
+        }
+
+        //On sécurise le champs en vérifiant qu'il s'agit bien d'un nombre entre 1 et 5
+        if ($_POST['note'] < 0 or $_POST['note'] > 5) {
+            header("Location:/matchs/get/$id_match");
+            return;
+        }
+
+        //On ajoute la note
+        $res = $model->note($id_match, $num, $_POST['note']);
+        if (!$res) {
+            header("Location:/matchs/get/$id_match");
+            return;
+        }
+
+        header("Location:/matchs/get/$id_match");
+    }
+
     private function participerAuMatch($id_match, $num, $status) {
 
         $model = $this->model('Mod_Matchs');

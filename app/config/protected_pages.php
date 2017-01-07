@@ -25,6 +25,9 @@ return [
         'selection',
         'edit',
         'delete',
-        'remove'
+        'remove',
+    ],
+    'stats' => [
+        'index'
     ]
 ];

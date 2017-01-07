@@ -160,6 +160,15 @@ flex-direction: row-reverse;
   width: 20px;
   flex: 1;
 }
+
+/*
+*************** STATS *****************
+ */
+
+.stat-matchs .col {
+  text-align: center;
+}
+
 /*
 *************** REDEFINE BOOTSTRAP *****************
  */

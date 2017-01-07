@@ -221,8 +221,11 @@ class matchs extends Controller
 
         //On récupère la liste des joueurs
         $joueurs = $this->model('Mod_Joueurs')->getJoueursForSelection($id_match);
-        
-        header("Location:/matchs/edit/$id_match");
+
+        $this->view('matchs/selection', [
+            'id_match' => $id_match,
+            'joueurs' => $joueurs
+        ]);
     }
 
     /**
@@ -263,7 +266,7 @@ class matchs extends Controller
         //On sécurise les entrees
         $id_match = addslashes(htmlentities($id_match));
         $num = addslashes(htmlentities($num));
-        $this->participerAuMatch($id_match, $num, "titulaire");
+        $this->participerAuMatch($id_match, $num, true);
     }
 
     /**
@@ -275,7 +278,7 @@ class matchs extends Controller
         //On sécurise les entrees
         $id_match = addslashes(htmlentities($id_match));
         $num = addslashes(htmlentities($num));
-        $this->participerAuMatch($id_match, $num, "remplacement");
+        $this->participerAuMatch($id_match, $num, false);
     }
 
     /**
@@ -325,7 +328,7 @@ class matchs extends Controller
      * @param $num
      * @param $status
      */
-    private function participerAuMatch($id_match, $num, $status) {
+    private function participerAuMatch($id_match, $num, $titulaire) {
 
         $model = $this->model('Mod_Matchs');
 
@@ -335,7 +338,7 @@ class matchs extends Controller
             return;
         }
 
-        $res = $model->addToMatch($id_match, $num, $status);
+        $res = $model->addToMatch($id_match, $num, $titulaire);
         if (!$res) {
             header("Location:/matchs/selection/$id_match");
             return;

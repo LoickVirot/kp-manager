@@ -61,11 +61,11 @@
             <td><?= $player['prenom'] ?></td>
             <td><?= $player['nom'] ?></td>
             <td><?= $player['nom_poste'] ?></td>
-            <td><?= ucfirst($player['status']) ?></td>
+            <td><?= $player['titulaire'] ? 'Titulaire' : 'Remplaçant' ?></td>
             <?php if (!$data['isMatchFinished']) : ?>
                 <td><a href="/matchs/remove/<?= $data['match']['id_match'] ?>/<?= $player['numero_licence'] ?>" class="text-danger">Retirer</a></td>
             <?php else: ?>
-                <td><?= $player['note'] ?>/5</td>
+                <td><?= is_null($player['note']) ? 'NN' : $player['note'] . '/5' ?></td>
                 <td>
                     <form action="/matchs/note/<?= $data['match']['id_match'] ?>/<?= $player['numero_licence'] ?>" method="post">
                         <div class="btn-group" role="group">

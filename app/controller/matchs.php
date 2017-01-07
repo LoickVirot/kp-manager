@@ -204,7 +204,7 @@ class matchs extends Controller
         }
 
         //On récupère la liste des joueurs
-        $joueurs = $this->model('Mod_Joueurs')->getJoueursBasicInfo();
+        $joueurs = $this->model('Mod_Joueurs')->getJoueursForSelection($id_match);
 
         //Si pas de variable post, on affiche la page
         if (empty($_POST)) {
@@ -240,6 +240,59 @@ class matchs extends Controller
 
     public function remove($id_match, $num)
     {
+        //On sécurise les entrees
+        $id_match = addslashes(htmlentities($id_match));
+        $num = addslashes(htmlentities($num));
 
+        $model = $this->model('Mod_Matchs');
+
+        //On vérifie si le match existe
+        if (!$model->isMatchExists($id_match)) {
+            header('Location:/matchs');
+            return;
+        }
+
+        $res = $model->removeOfMatch($id_match, $num);
+        if (!$res) {
+            header("Location:/matchs/get/$id_match");
+            return;
+        }
+
+        header("Location:/matchs/get/$id_match");
+
+    }
+
+    public function titulaire($id_match, $num) {
+        //On sécurise les entrees
+        $id_match = addslashes(htmlentities($id_match));
+        $num = addslashes(htmlentities($num));
+        $this->participerAuMatch($id_match, $num, "titulaire");
+    }
+
+    public function remplacant($id_match, $num) {
+        //On sécurise les entrees
+        $id_match = addslashes(htmlentities($id_match));
+        $num = addslashes(htmlentities($num));
+        $this->participerAuMatch($id_match, $num, "remplacement");
+    }
+
+    private function participerAuMatch($id_match, $num, $status) {
+
+        $model = $this->model('Mod_Matchs');
+
+        //On vérifie si le match existe
+        if (!$model->isMatchExists($id_match)) {
+            header('Location:/matchs');
+            return;
+        }
+
+        $res = $model->addToMatch($id_match, $num, $status);
+        if (!$res) {
+            header("Location:/matchs/selection/$id_match");
+            return;
+        }
+
+        header("Location:/matchs/selection/$id_match");
+        
     }
 }

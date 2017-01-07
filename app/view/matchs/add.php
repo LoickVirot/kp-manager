@@ -26,5 +26,6 @@
             </select>
         </div>
     </div>
+    <a href='/matchs/get/<?= $data['id_match'] ?>' class="btn btn-default">Annuler</a>
     <button type="submit" class="btn btn-primary">Ajouter</button>
 </form>

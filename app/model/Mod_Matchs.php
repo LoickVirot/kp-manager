@@ -6,7 +6,7 @@ class Mod_Matchs extends Database
         return $this->select("
         SELECT * 
         FROM matchs
-        ORDER BY date");
+        ORDER BY date DESC ");
     }
 
     public function addMatch ($adversaire, $date, $lieu)
@@ -50,27 +50,6 @@ class Mod_Matchs extends Database
     }
 
     /**
-     * Ajoute des joueurs à la sélection pour un match.
-     * Retourne un tableau qui associe chaque joueur au résultat (vrai ou faux) de la requete.
-     * @param $id_match
-     * @param $players
-     * @return array
-     */
-    public function addPlayersToSelection($id_match, $players) {
-        $resReturn = [];
-
-        foreach ($players as $player) {
-            $resQuery = $this->insert("
-            INSERT INTO participation(num_licence, id_match)
-              VALUES('$player', '$id_match');
-            ");
-            $resReturn[$player] = $resQuery;
-        }
-
-        return $resReturn;
-    }
-
-    /**
      * Retourne les joueurs participant au match
      * @param $id_match
      * @return array
@@ -78,13 +57,32 @@ class Mod_Matchs extends Database
     public function getSelectedPlayers($id_match) {
         //On récupère la liste des numeros de licenses qui participent
         $players = $this->select("
-        SELECT j.*, p.id_poste
-        FROM participation p, joueurs j
+        SELECT j.numero_licence, j.nom, j.prenom, j.photo, p.status, po.nom as nom_poste
+        FROM participation p, joueurs j, postes po
         WHERE p.num_licence = j.numero_licence
-        AND p.id_match = '2'
+        AND j.poste = po.id_poste
+        AND p.id_match = '$id_match'
+        ORDER BY p.status DESC, j.nom, j.prenom
         ");
 
         return $players;
+    }
+
+    public function addToMatch($id_match, $num, $status)
+    {
+        return $this->insert("
+        INSERT INTO participation(id_match, num_licence, status)
+        VALUES ('$id_match', '$num', '$status')
+        ");
+    }
+
+    public function removeOfMatch($id_match, $num)
+    {
+        return $this->insert("
+        DELETE FROM participation
+        WHERE id_match = '$id_match'
+        AND num_licence = '$num'
+        ");
     }
 
 

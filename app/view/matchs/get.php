@@ -6,6 +6,7 @@
         </a>
     </small>
 </h1>
+<a href='/matchs/get/<?= $data['id_match'] ?>' class="btn btn-default">Retour</a>
 <div class="match-view">
     <?php $data['match']['lieu'] == "domicile" ? $class = 'match' : $class = 'match-reverse' ?>
     <div class="<?= $class ?>">
@@ -45,6 +46,8 @@
     <th>Prénom</th>
     <th>Nom</th>
     <th>Poste</th>
+    <th>Status</th>
+    <th>Action</th>
     </thead>
     <tbody>
     <?php foreach ($data['players'] as $player) : ?>
@@ -52,7 +55,9 @@
             <td><?= $player['numero_licence'] ?></td>
             <td><?= $player['prenom'] ?></td>
             <td><?= $player['nom'] ?></td>
-            <td><?= $player['id_poste'] ?></td>
+            <td><?= $player['nom_poste'] ?></td>
+            <td><?= ucfirst($player['status']) ?></td>
+            <td><a href="/matchs/remove/<?= $data['match']['id_match'] ?>/<?= $player['numero_licence'] ?>" class="text-danger">Retirer</a></td>
         </tr>
     <?php endforeach; ?>
     </tbody>

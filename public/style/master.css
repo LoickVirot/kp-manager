@@ -103,6 +103,24 @@ vertical-align: middle;
   height: 100px;
 }
 
+.player-card {
+  display: block;
+  padding: 0px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.player-card .photo {
+  display: block;
+  max-width: 300px;
+  height: 300px;
+  overflow: hidden;
+}
+
+.player-card .photo img {
+  height: 100%;
+}
 /*
 *************** MATCHS *****************
  */

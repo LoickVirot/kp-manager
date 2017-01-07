@@ -117,4 +117,23 @@ class Mod_Joueurs extends Database
         ");
         return $res;
     }
+
+    /**
+     * Retourne la liste des joueurs pouvant participer aux matchs
+     * @return array
+     */
+    public function getJoueursForSelection($id_match)
+    {
+        return $this->select("
+        SELECT j.numero_licence, j.prenom, j.photo, j.ddn, j.taille, j.poids, j.commentaire, j.nom as nom_joueur, p.nom as nom_poste
+        FROM joueurs j, postes p
+        WHERE j.poste = p.id_poste
+        AND status = 1
+        AND j.numero_licence NOT IN (SELECT num_licence
+                                 FROM participation pa, joueurs j
+                                 WHERE j.numero_licence = pa.num_licence
+                                 AND pa.id_match = '$id_match')
+        ORDER BY nom_joueur, j.prenom
+        ");
+    }
 }

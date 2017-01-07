@@ -14,6 +14,9 @@ class matchs extends Controller
         $this->date = new DateTime(date('d-m-Y'));
     }
 
+    /**
+     * Affiche tous les matchs
+     */
     public function index()
     {
         // Récuperer les matchs
@@ -29,6 +32,10 @@ class matchs extends Controller
         $this->view('matchs/index', ['team' => $this->team, 'matchs' => $matchs]);
     }
 
+    /**
+     * Affiche le match correspondant
+     * @param $id_match
+     */
     public function get($id_match) {
 
         //On sécurise l'id du match
@@ -60,6 +67,9 @@ class matchs extends Controller
         ]);
     }
 
+    /**
+     * Ajoute un nouveau match
+     */
     public function add()
     {
         if (!empty($_POST)) {
@@ -91,6 +101,10 @@ class matchs extends Controller
         }
     }
 
+    /**
+     * Modifier le match correspondant
+     * @param $id_match
+     */
     public function edit($id_match) {
         //On sécurise l'id du match
         $id_match = addslashes(htmlentities($id_match));
@@ -105,9 +119,6 @@ class matchs extends Controller
         //Récuperation du match
         $match = $model->getMatch($id_match);
 
-        //Récupération des joueurs sélectionnés
-        $players = $model->getSelectedPlayers($id_match);
-
         //Vérification de la date du match
         $matchDate = new DateTime(date('d-m-Y', strtotime($match['date'])));
         $isMatchFinished = $matchDate <= $this->date;
@@ -117,7 +128,6 @@ class matchs extends Controller
             $this->view('matchs/edit', [
                 'team' => $this->team,
                 'match' => $match,
-                'players' => $players,
                 'isMatchFinished' => $isMatchFinished
             ]);
             return;
@@ -128,7 +138,6 @@ class matchs extends Controller
             $this->view('matchs/edit', [
                 'team' => $this->team,
                 'match' => $match,
-                'players' => $players,
                 'error' => 'Veuillez remplir tous les champs']);
             return;
         }
@@ -147,14 +156,17 @@ class matchs extends Controller
             $this->view('matchs/edit', [
                 'team' => $this->team,
                 'match' => $match,
-                'players' => $players,
-                'error' => 'Quelque chose s\'est mal passe, veuillez rééssayer']);
+                'error' => 'Quelque chose s\'est mal passé, veuillez rééssayer']);
             return;
         }
 
         header('Location:/matchs');
     }
 
+    /**
+     * Supprimer le match correspondant
+     * @param $id_match
+     */
     public function delete($id_match) {
         //On sécurise l'id du match
         $id_match = addslashes(htmlentities($id_match));
@@ -183,6 +195,10 @@ class matchs extends Controller
         header('Location:/matchs');
     }
 
+    /**
+     * Vue pour ajouter des joueurs à la sélection du match correspondant
+     * @param $id_match
+     */
     public function selection($id_match)
     {
         //On sécurise l'id du match
@@ -205,39 +221,15 @@ class matchs extends Controller
 
         //On récupère la liste des joueurs
         $joueurs = $this->model('Mod_Joueurs')->getJoueursForSelection($id_match);
-
-        //Si pas de variable post, on affiche la page
-        if (empty($_POST)) {
-            $this->view('matchs/selection', ['id_match' => $id_match, 'joueurs' => $joueurs]);
-            return;
-        }
-
-        //On sécurise les données
-        $players = [];
-        foreach ($_POST as $input) {
-            array_push($players, htmlentities(addslashes(htmlentities($input))));
-        }
-        
-        $results = $model->addPlayersToSelection($id_match, $players);
-
-        //On vérifie que tout est bien rentré, sinon on veut afficher des messages d'erreur
-        $errors = [];
-        foreach ($results as $player => $res) {
-            if (!$res) {
-                array_push($errors, "Le joueur $player n'a pas pu être sélectionné. Veuillez rééssayer");
-                $isError = true;
-            }
-        }
-
-        //Si une erreur doit être affichée
-        if (isset($isError) && $isError) {
-            $this->view('matchs/selection', ['id_match' => $id_match, 'joueurs' => $joueurs, 'errors' => $errors]);
-            return;
-        }
         
         header("Location:/matchs/edit/$id_match");
     }
 
+    /**
+     * Retirer le joueur de la sélection du match
+     * @param $id_match
+     * @param $num
+     */
     public function remove($id_match, $num)
     {
         //On sécurise les entrees
@@ -262,6 +254,11 @@ class matchs extends Controller
 
     }
 
+    /**
+     * Ajoute le joueur à la selection en tant que titulaire
+     * @param $id_match
+     * @param $num
+     */
     public function titulaire($id_match, $num) {
         //On sécurise les entrees
         $id_match = addslashes(htmlentities($id_match));
@@ -269,6 +266,11 @@ class matchs extends Controller
         $this->participerAuMatch($id_match, $num, "titulaire");
     }
 
+    /**
+     * Ajoute le joueur à la selection en tant que remplaçant
+     * @param $id_match
+     * @param $num
+     */
     public function remplacant($id_match, $num) {
         //On sécurise les entrees
         $id_match = addslashes(htmlentities($id_match));
@@ -276,6 +278,11 @@ class matchs extends Controller
         $this->participerAuMatch($id_match, $num, "remplacement");
     }
 
+    /**
+     * Ajoute une note au joueur pour le match
+     * @param $id_match
+     * @param $num
+     */
     public function note($id_match, $num)
     {
         //On sécurise les entrees
@@ -312,6 +319,12 @@ class matchs extends Controller
         header("Location:/matchs/get/$id_match");
     }
 
+    /**
+     * Ajoute le joueur à la sélection du match en tant que 'status'
+     * @param $id_match
+     * @param $num
+     * @param $status
+     */
     private function participerAuMatch($id_match, $num, $status) {
 
         $model = $this->model('Mod_Matchs');

@@ -9,7 +9,7 @@ class Mod_Stats extends Database
             SELECT COUNT(*)
             FROM matchs
             WHERE matchs.score_team > matchs.score_adv
-            AND matchs.date < CURRENT_DATE
+            AND matchs.date <= CURRENT_DATE
         ");
     }
 
@@ -19,7 +19,7 @@ class Mod_Stats extends Database
             SELECT COUNT(*)
             FROM matchs
             WHERE matchs.score_team = matchs.score_adv
-            AND matchs.date < CURRENT_DATE
+            AND matchs.date <= CURRENT_DATE
         ");
     }
 
@@ -29,7 +29,7 @@ class Mod_Stats extends Database
             SELECT COUNT(*)
             FROM matchs
             WHERE matchs.score_team < matchs.score_adv
-            AND matchs.date < CURRENT_DATE
+            AND matchs.date <= CURRENT_DATE
         ");
     }
 
@@ -47,6 +47,7 @@ class Mod_Stats extends Database
             AND m.id_match = pa.id_match
             AND j.poste = po.id_poste
             AND j.status = s.id_status
+            AND m.date <= CURRENT_DATE
             GROUP BY j.nom, j.prenom
         ");
     }

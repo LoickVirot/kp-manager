@@ -33,6 +33,16 @@ class Mod_Matchs extends Database
         );
     }
 
+    public function getNextMatch()
+    {
+        return $this->selectOne("
+            SELECT *
+            FROM matchs m
+            WHERE m.date >= CURRENT_DATE
+            LIMIT 1
+            ");
+    }
+
     public function updateMatch($id_match, $adv, $date, $lieu, $score_team = 0, $score_adv = 0)
     {
         return $this->insert(

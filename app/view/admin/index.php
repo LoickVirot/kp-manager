@@ -21,6 +21,27 @@
         <a href="/joueurs"><span class="glyphicon glyphicon-th-list"></span> Tous les joueurs</a>
     </div>
     <div class="col-md-6">
-        <h2>Matchs <small><a href=""><span class="glyphicon glyphicon-plus"></span>Ajouter un match</a></small></h2>
+        <h2>Prochain Match <small><a href="/matchs"><span class="glyphicon glyphicon-th-list"></span> Tous les matchs</a></small></h2>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Date : <?= date("d/m/Y", strtotime($data['next_match']['date'])) ?>
+                - <?= ucfirst($data['next_match']['lieu']) ?>
+            </div>
+            <div class="match-view-vs panel-body">
+                <?php $data['next_match']['lieu'] == "domicile" ? $class = 'match' : $class = 'match-reverse' ?>
+                <div class="<?= $class ?>">
+                    <div class="team">
+                        <h3><?= $data['team'] ?></h3>
+                    </div>
+                    <div class="between"><h3>VS</h3></div>
+                    <div class="adv">
+                        <h3><?= $data['next_match']['adversaire'] ?></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <a href="/matchs/get/<?= $data['next_match']['id_match'] ?>">Voir le match</a>
+            </div>
+        </div>
     </div>
 </div>

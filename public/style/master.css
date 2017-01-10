@@ -148,7 +148,7 @@ vertical-align: middle;
 }
 
 .match-reverse div {
-flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 .match div {
@@ -159,6 +159,13 @@ flex-direction: row-reverse;
 {
   width: 20px;
   flex: 1;
+}
+
+.match-view-vs .match div,
+.match-view-vs .match-reverse div {
+  display: flex;
+  justify-content: center;
+  flex: 10;
 }
 
 /*
@@ -184,3 +191,4 @@ div.divider {
   display: block;
   margin: 20px 0;
 }
+

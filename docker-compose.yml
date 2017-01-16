@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  db:
+    image: mariadb
+    command: mysqld --innodb-buffer-pool-size=20M
+    volumes:
+      - "./.data:/var/lib/mysql:rw"
+    environment:
+      - "MYSQL_DATABASE=kpmanager"
+      - "MYSQL_USER=kpmanager"
+      - "MYSQL_PASSWORD=dev"
+      - "MYSQL_ROOT_PASSWORD=dev"
+    ports:
+      - "3306:3306"
+
+  web:
+    image: tutum/apache-php
+    volumes:
+      - ./site:/app
+      - ./sites-available:/etc/apache2/sites-available
+    environment:
+      ALLOW_OVERRIDE: 1
+    ports:
+      - "8888:80"
+    links:
+      - db
+  #
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   links:
+  #     - db
+  #   ports:
+  #     - "8887:80"

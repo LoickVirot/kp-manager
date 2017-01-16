@@ -1,0 +1,11 @@
+version: '2'
+
+services:
+  web:
+    image: tutum/apache-php
+    volumes:
+      - .:/app
+    environment:
+      ALLOW_OVERRIDE: 1
+    ports:
+      - "8888:80"

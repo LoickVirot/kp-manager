@@ -26,7 +26,7 @@
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">Date de naissance</span>
-            <input type="date" class="form-control" name="ddn" value="<?= $data['joueur']['ddn'] ?>" required>
+            <input type="date" class="form-control" name="ddn" placeholder="jj-mm-aaaa" value="<?= $data['joueur']['ddn'] ?>" required>
         </div>
     </div>
     <div class="form-group">

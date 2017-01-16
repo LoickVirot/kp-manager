@@ -42,6 +42,10 @@ class Joueurs extends Controller
                 if ($_FILES['photo']['size'] > $max_size)
                     $error = "La photo doit peser moins de 2 Mo.";
 
+                //Verification de la date
+                if (!$this->verififerDate($_POST['ddn']))
+                    $error = "La date doit être au format dd-mm-aaaa";
+
 
                 if (empty($error)) {
                     //On upload l'imgage
@@ -87,12 +91,22 @@ class Joueurs extends Controller
         $joueur = $this->model('Mod_Joueurs')->getJoueurNumLicence($num);
         $postes = $this->model('Mod_Postes')->getPostes();
         $status = $this->model('Mod_Status')->getStatus();
+
         //S'il y a une variable post
         if (!empty($_POST)) {
             //Si rien n'est vide
             if ($this->isAllInputsCompleted(['num', 'nom', 'prenom', 'ddn', 'taille', 'poids', 'id_poste', 'status'])) {
+
+                //Verification de la date
+                if (!$this->verififerDate($_POST['ddn'])) {
+                    $error = "La date doit être au format dd-mm-aaaa";
+                    $this->view('joueurs/edit', ['joueur' => $joueur, 'postes' => $postes, 'status' => $status,
+                        'error' => $error]);
+                }
+
                 //On sécurise les valeurs
                 $inputs = $this->securiserDonnees($_POST);
+
                 //On envois les valeurs
                 $res = $this->model('Mod_Joueurs')->updatePlayer($inputs['num'], $inputs['nom'], $inputs['prenom'],
                 $inputs['ddn'], $inputs['taille'], $inputs['poids'], $inputs['id_poste'], $inputs['status'], $inputs['commentaire']);
@@ -122,14 +136,12 @@ class Joueurs extends Controller
 
         //Verifier si un numero est rentré
         if ($num == "")
-            echo "Pas de num";
-            //header('Location:/joueurs');
+            header('Location:/joueurs');
 
         $model = $this->model('Mod_Joueurs');
         //Verifier si je joueur existe
         if (!$model->isJoueurExists($num))
-            //header('Location:/joueurs');
-            echo "Joueur not exixts";
+            header('Location:/joueurs');
 
         $joueur = $model->getJoueurBasicInfo($num);
 
@@ -145,7 +157,6 @@ class Joueurs extends Controller
                     'error' => 'Erreur lors de la suppression du joueur, veuillez rééssayer.']);
         }
         else {
-            var_dump($_POST);
             $this->view('joueurs/delete', ['joueur' => $joueur]);
         }
 
@@ -179,7 +190,10 @@ class Joueurs extends Controller
     private function securiserDonnees($data) {
         $return = [];
         foreach ($data as $key => $value) {
-            $return[$key] = addslashes(htmlentities($value));
+            if ($key != 'ddn')
+                $return[$key] = addslashes(htmlentities($value));
+            else
+                $return[$key] = htmlentities(addslashes(date('Y-m-d', strtotime($value))));
         }
         return $return;
     }
@@ -197,5 +211,18 @@ class Joueurs extends Controller
                 $return = false;
         }
         return $return;
+    }
+
+    private function verififerDate($date) {
+        //On vérifie le type du paramètre
+        if (gettype($date) != "string") {
+            return false;
+        }
+        //On vérifie si la date est pas inverieur a la date d'ajd
+        if (date('m-d-Y', strtotime($date)) < date('m-d-Y')) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -14,7 +14,7 @@
     <div class="form-group">
         <div class="input-group">
             <span class="input-group-addon">Date</span>
-            <input type="date" class="form-control" name="date" placeholder="jj/mm/aaaa" required>
+            <input type="date" class="form-control" name="date" placeholder="jj-mm-aaaa" required>
         </div>
     </div>
     <div class="form-group">

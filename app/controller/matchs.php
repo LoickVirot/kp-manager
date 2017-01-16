@@ -24,7 +24,7 @@ class matchs extends Controller
 
         foreach ($matchs as $key => $match) {
             //Vérification de la date du match
-            $matchDate = new DateTime(date('d-m-Y', strtotime($match['date'])));
+            $matchDate = new DateTime($match['date']);
             $matchs[$key]['isMatchFinished'] = $matchDate <= $this->date;
         }
 
@@ -55,7 +55,7 @@ class matchs extends Controller
         $players = $model->getSelectedPlayers($id_match);
 
         //Vérification de la date du match
-        $matchDate = new DateTime(date('d-m-Y', strtotime($match['date'])));
+        $matchDate = new DateTime($match['date']);
         $isMatchFinished = $matchDate <= $this->date;
 
         //Affichage de la page de match
@@ -74,8 +74,15 @@ class matchs extends Controller
     {
         if (!empty($_POST)) {
             if (!empty($_POST['adversaire']) && !empty($_POST['date']) && !empty($_POST['lieu'])) {
+
+                if (!$this->verififerDate($_POST['date'])) {
+                    $error = "La date doit être de type jj-mm-yyyy";
+                    $this->view("matchs/add", ['error' => $error, 'team' => $this->team]);
+                    return;
+                }
+
                 $adversaire = htmlentities(addslashes($_POST['adversaire']));
-                $date = htmlentities(addslashes($_POST['date']));
+                $date = htmlentities(addslashes(date('Y-m-d', strtotime($_POST['date']))));
                 $lieu = htmlentities(addslashes($_POST['lieu']));
 
                 $model = $this->model('Mod_Matchs');
@@ -87,7 +94,6 @@ class matchs extends Controller
                     $error = "Problème lors de l'ajout du match dans la base de donnée";
                     $this->view("matchs/add", ['error' => $error, 'team' => $this->team]);
                 }
-
             }
             else {
                 $error = "Tous les champs doivent être remplis";
@@ -120,7 +126,7 @@ class matchs extends Controller
         $match = $model->getMatch($id_match);
 
         //Vérification de la date du match
-        $matchDate = new DateTime(date('d-m-Y', strtotime($match['date'])));
+        $matchDate = new DateTime($match['date']);
         $isMatchFinished = $matchDate <= $this->date;
 
         //On vérifie s'il existe une variable post, sinon on affiche la page normalement
@@ -142,10 +148,23 @@ class matchs extends Controller
             return;
         }
 
+        //On vérifie que la date est valide
+        if (!$this->verififerDate($_POST['date'])) {
+            $error = "La date doit être de type jj-mm-yyyy";
+            $this->view("matchs/edit", [
+                'error' => $error,
+                'match' => $match,
+                'team' => $this->team]);
+            return;
+        }
+
         //On sécurise les données
         $inputs = [];
         foreach ($_POST as $key => $value) {
-            $inputs[$key] = htmlentities(addslashes(htmlentities($value)));
+            if ($key != 'date')
+                $inputs[$key] = htmlentities(addslashes(htmlentities($value)));
+            else
+                $inputs[$key] = htmlentities(addslashes(date('Y-m-d', strtotime($value))));
         }
 
         //On met à jour le match
@@ -346,5 +365,18 @@ class matchs extends Controller
 
         header("Location:/matchs/selection/$id_match");
         
+    }
+
+    private function verififerDate($date) {
+        //On vérifie le type du paramètre
+        if (gettype($date) != "string") {
+            return false;
+        }
+        //On vérifie si la date est pas inverieur a la date d'ajd
+        if (date('m-d-Y', strtotime($date)) < date('m-d-Y')) {
+            return false;
+        }
+
+        return true;
     }
 }
